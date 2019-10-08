@@ -11,7 +11,7 @@
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
         zoom: 6,
-        center: [-1.464854, 52.561928], // starting position [lng, lat]
+        center: [-1.464854, 52.561928] // starting position [lng, lat]
       })
       this.map.addControl(new mapboxgl.NavigationControl())
       this.map.addControl(new mapboxgl.GeolocateControl({
