@@ -23,8 +23,8 @@
         console.log ({name: this.createVenueForm.name, address: this.createVenueForm.number + ", " + this.createVenueForm.postCode})
         $.post("/venues/create", 
         {name: this.createVenueForm.name, address: this.createVenueForm.number + ", " + this.createVenueForm.postCode}, 
-        function () {
-
+        function (data) {
+          console.log(data)
         })
       }
     },
