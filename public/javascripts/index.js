@@ -6,6 +6,14 @@
     data: {
       map: null
     },
+    methods: {
+      openMenu: (menu) => {
+        menu.classList.add("open")
+      },
+      closeMenu: (menu) => {
+        menu.classList.remove("open")
+      }
+    },
     mounted () {
       this.map = new mapboxgl.Map({
         container: 'map',

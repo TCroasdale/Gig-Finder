@@ -1,8 +1,23 @@
 <%- include partials/header.ejs %>
 <main id="app">
+    <div id="side-menu" class="side-menu y-stretch bg-dark text-white" ref="menu">
+        <div id="menu-close" class="" v-on:click="closeMenu($refs.menu)">
+            <div class="menu-bar-deco"></div>
+            <div class="menu-bar-deco"></div>
+        </div>
+        <ul class="list-group-flush bg-dark px-0">
+            <li class="list-group-item bg-dark">About</li>
+            <li class="list-group-item bg-dark">Hosting a Gig?</li>
+            <li class="list-group-item bg-dark">FAQ</li>
+            <li class="list-group-item bg-dark">Contact us!</li>
+        </ul>
+        <div id="menu-footer" class="">
+            <p>Footer</p>
+        </div>
+    </div>
     <div id="map" class="w-100 y-stretch"></div>
     <div id="nav-bar" class="navbar row">
-        <div id="menu-btn" class="col-2 nav-elem ">
+        <div id="menu-btn" class="col-2 nav-elem " v-on:click="openMenu($refs.menu)">
             <div class="menu-bar-deco"></div>
             <div class="menu-bar-deco"></div>
             <div class="menu-bar-deco"></div>
