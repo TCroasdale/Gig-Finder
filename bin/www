@@ -8,6 +8,10 @@ var app = require('../app');
 var debug = require('debug')('gig-finder:server');
 var http = require('http');
 
+// Connecting to the database
+var db = require('../database/database')
+
+
 /**
  * Get port from environment and store in Express.
  */

@@ -7,8 +7,8 @@ router.get('/', function (req, res, next) {
   res.send("NOT YET IMPLEMENTED")
 })
 
-router.get('/create', bandController.createVenue)
+router.get('/create', bandController.createBand)
 
-router.get('/view', bandController.viewVenue)
+router.get('/view', bandController.viewBand)
 
 module.exports = router

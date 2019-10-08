@@ -10,4 +10,4 @@ var Venue = new Schema({
   }
 })
 
-module.exports = mongoose.model('Venue', Venu)
+module.exports = mongoose.model('Venue', Venue)

@@ -4,14 +4,28 @@
   const app = new Vue({
     el: '#app',
     data: {
-      map: null
+      map: null,
+      createVenueForm: {
+        name: '',
+        number: '',
+        postCode: ''
+      }
     },
     methods: {
-      openMenu: (menu) => {
-        menu.classList.add("open")
+      openMenu: function () {
+        this.$refs.menu.classList.add("open")
       },
-      closeMenu: (menu) => {
-        menu.classList.remove("open")
+      closeMenu: function () {
+        this.$refs.menu.classList.remove("open")
+      },
+      createVenue: function () {
+        console.log(this.createVenueForm)
+        console.log ({name: this.createVenueForm.name, address: this.createVenueForm.number + ", " + this.createVenueForm.postCode})
+        $.post("/venues/create", 
+        {name: this.createVenueForm.name, address: this.createVenueForm.number + ", " + this.createVenueForm.postCode}, 
+        function () {
+
+        })
       }
     },
     mounted () {

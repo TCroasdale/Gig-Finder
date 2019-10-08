@@ -7,8 +7,8 @@ router.get('/', function (req, res, next) {
   res.send("NOT YET IMPLEMENTED")
 })
 
-router.get('/create', gigController.createVenue)
+router.get('/create', gigController.createGig)
 
-router.get('/view', gigController.viewVenue)
+router.get('/view', gigController.viewGig)
 
 module.exports = router

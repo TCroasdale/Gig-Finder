@@ -7,7 +7,7 @@ router.get('/', function (req, res, next) {
   res.send("NOT YET IMPLEMENTED")
 })
 
-router.get('/create', venuesController.createVenue)
+router.post('/create', venuesController.createVenue)
 
 router.get('/view', venuesController.viewVenue)
 

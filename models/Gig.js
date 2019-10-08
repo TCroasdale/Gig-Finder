@@ -3,7 +3,7 @@ var Schema = mongoose.Schema
 var ObjectId = mongoose.ObjectId
 
 var Gig = new Schema({
-  lineup: [{type: Objectid, ref: 'Band'}],
+  lineup: [{type: ObjectId, ref: 'Band'}],
   venue: {type: ObjectId, ref: "Venue"},
   startDate: { type: Date, required: true },
 })
