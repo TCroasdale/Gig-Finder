@@ -32,7 +32,7 @@
       this.map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
-        zoom: 6,
+        zoom: 8,
         center: [-1.464854, 52.561928] // starting position [lng, lat]
       })
       this.map.addControl(new mapboxgl.NavigationControl())
@@ -42,7 +42,19 @@
         },
         trackUserLocation: true
       }))
+
+      // Make Request for data.
+      $.get("/api/fetch-all", (data) => {
+        if (data.success) {
+          for (var v = 0; v < data.results.venues.length; v++) {
+            var venue = data.results.venues[v]
+            var marker = new mapboxgl.Marker().setLngLat([venue.location.long, venue.location.lat]).addTo(this.map);
+          }
+        }       
+      })
     }
+
+    
   })
   console.log(app)
 }) (Vue, mapboxgl, jQuery) // eslint-disable-line
