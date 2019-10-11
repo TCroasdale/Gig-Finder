@@ -61,7 +61,7 @@ a {
   z-index: 10; 
   top: 0; 
   left: -75%;
-  width: 75%;
+  width: 75%; 
   overflow-x: hidden; 
   padding-top: 60px;
   transition: 0.5s; 

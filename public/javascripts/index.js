@@ -9,6 +9,11 @@
         name: '',
         number: '',
         postCode: ''
+      },
+      createGigForm: {
+        lineup: ['', '', ''],
+        date: '',
+        venue: ''
       }
     },
     methods: {
@@ -26,6 +31,9 @@
         function (data) {
           console.log(data)
         })
+      },
+      createGig: function () {
+        console.log(this.createGigForm)
       }
     },
     mounted () {
@@ -52,6 +60,7 @@
           }
         }       
       })
+      
     }
 
     
