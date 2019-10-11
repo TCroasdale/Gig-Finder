@@ -1,4 +1,4 @@
-(function (Vue, mapboxgl, $) {
+(function (Vue, mapboxgl) {
   mapboxgl.accessToken = 'pk.eyJ1IjoidGNyb2FzZGFsZSIsImEiOiJjazFoeHVnYXAwMHBpM2ltbjc4eDEzcWkyIn0.KBvexyHWTEuO4-OGIwE0tA'
 
   const app = new Vue({
@@ -24,12 +24,21 @@
         this.$refs.menu.classList.remove("open")
       },
       createVenue: function () {
-        console.log(this.createVenueForm)
-        console.log ({name: this.createVenueForm.name, address: this.createVenueForm.number + ", " + this.createVenueForm.postCode})
-        $.post("/venues/create", 
-        {name: this.createVenueForm.name, address: this.createVenueForm.number + ", " + this.createVenueForm.postCode}, 
-        function (data) {
-          console.log(data)
+        let fetchData = { 
+          method: 'POST', 
+          body: { name: this.createVenueForm.name, 
+            address: this.createVenueForm.number + ", " + this.createVenueForm.postCode },
+          headers: new Headers()
+        }
+        fetch ('/venues/create', FormData)
+        .then ((resp) => resp.json())
+        .then ((data) => {
+          if (data.success) {
+            console.log(data)
+          }
+        })
+        .catch ((err) => {
+          console.log (err)
         })
       },
       createGig: function () {
@@ -51,19 +60,23 @@
         trackUserLocation: true
       }))
 
-      // Make Request for data.
-      $.get("/api/fetch-all", (data) => {
+      fetch ('api/fetch-all')
+      .then ((resp) => resp.json())
+      .then ((data) => {
         if (data.success) {
           for (var v = 0; v < data.results.venues.length; v++) {
             var venue = data.results.venues[v]
             var marker = new mapboxgl.Marker().setLngLat([venue.location.long, venue.location.lat]).addTo(this.map);
           }
-        }       
+        }
       })
-      
+      .catch ((err) => {
+        console.log (err)
+      })
+
     }
 
     
   })
   console.log(app)
-}) (Vue, mapboxgl, jQuery) // eslint-disable-line
+}) (Vue, mapboxgl) // eslint-disable-line
