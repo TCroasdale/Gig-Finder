@@ -7,7 +7,7 @@ router.get('/', function (req, res, next) {
   res.send("NOT YET IMPLEMENTED")
 })
 
-router.get('/create', gigController.createGig)
+router.post('/create', gigController.createGig)
 
 router.get('/view', gigController.viewGig)
 

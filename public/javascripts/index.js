@@ -6,6 +6,8 @@
     data: {
       map: null,
       mapLocationSelector: null,
+      mapVenueSelector: null,
+      venueFeatureLayer: null,
       createVenueForm: {
         name: '',
         location: { long: "", lat: "" },
@@ -14,7 +16,8 @@
       createGigForm: {
         lineup: ['', '', ''],
         date: '',
-        venue: ''
+        venue: '',
+        selectedMarker: null
       }
     },
     computed: {
@@ -29,29 +32,31 @@
       closeMenu: function () {
         this.$refs.menu.classList.remove("open")
       },
-      createVenueMap: function (){
+      createOtherMaps: function (){
         this.mapLocationSelector = new mapboxgl.Map({
           container: 'map-loc-select',
           style: 'mapbox://styles/mapbox/streets-v11',
           zoom: 8,
           center: [-1.464854, 52.561928] // starting position [lng, lat]
         })
+        this.mapVenueSelector = new mapboxgl.Map({
+          container: 'map-ven-select',
+          style: 'mapbox://styles/mapbox/streets-v11',
+          zoom: 8,
+          center: [-1.464854, 52.561928] // starting position [lng, lat]
+        })
+
         this.mapLocationSelector.addControl(new mapboxgl.NavigationControl())
-        this.mapLocationSelector.addControl(new mapboxgl.GeolocateControl({
-          positionOptions: {
-            enableHighAccuracy: true
-          },
-          trackUserLocation: true
-        }))
+        this.mapLocationSelector.addControl(new mapboxgl.GeolocateControl())
+        this.mapVenueSelector.addControl(new mapboxgl.NavigationControl())
+        this.mapVenueSelector.addControl(new mapboxgl.GeolocateControl())
+
         this.createVenueForm.locationMarker = new mapboxgl.Marker().setLngLat([0, 0]).addTo(this.mapLocationSelector);
         this.mapLocationSelector.on("click", (e) => {
-          console.log(e)
           this.createVenueForm.location.long = e.lngLat.lng
           this.createVenueForm.location.lat = e.lngLat.lat
           this.createVenueForm.locationMarker.setLngLat([e.lngLat.lng, e.lngLat.lat])
         })
-
-        console.log("mapLocaSelect", this.mapLocationSelector)
       },
       createVenue: function () {
         let fetchData = { 
@@ -77,8 +82,34 @@
           console.log (err)
         })
       },
+      selectMarker: function (marker, venue) {
+        this.createGigForm.selectedMarker = marker
+        this.createGigForm.venue = venue
+        console.log(marker, venue, this.createGigForm)
+      },
       createGig: function () {
-        console.log(this.createGigForm)
+        let fetchData = { 
+          method: 'POST', 
+          body: JSON.stringify({ 
+            date: this.createGigForm.date,
+            lineup: this.createGigForm.lineup,
+            venue: this.createGigForm.venue._id
+          }),
+          headers: { 'Content-Type': 'application/json' }
+        }
+        console.log(fetchData)
+        fetch ('/gigs/create', fetchData)
+        .then ((resp) => resp.json())
+        .then ((data) => {
+          if (data.success) {
+            console.log(data)
+          } else {
+            console.log(data)
+          }
+        })
+        .catch ((err) => {
+          console.log (err)
+        })
       }
     },
     mounted () {
@@ -96,15 +127,20 @@
         trackUserLocation: true
       }))
 
-      this.createVenueMap()
+      this.createOtherMaps()
 
       fetch ('api/fetch-all')
       .then ((resp) => resp.json())
       .then ((data) => {
         if (data.success) {
           for (var v = 0; v < data.results.venues.length; v++) {
-            var venue = data.results.venues[v]
-            var marker = new mapboxgl.Marker().setLngLat([venue.location.long, venue.location.lat]).addTo(this.map);
+            let venue = data.results.venues[v]
+            let marker = new mapboxgl.Marker().setLngLat([venue.location.long, venue.location.lat]).addTo(this.map);
+            let venueMarker = new mapboxgl.Marker().setLngLat([venue.location.long, venue.location.lat]).addTo(this.mapVenueSelector);
+            
+            venueMarker.getElement().addEventListener('click', (e) => {
+              this.selectMarker(venueMarker, venue)
+            })
           }
         }
       })

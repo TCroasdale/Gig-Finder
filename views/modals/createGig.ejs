@@ -10,8 +10,9 @@
             <div class="modal-body">
                 <form v-on:submit.prevent="createGig">
                     <div class="form-group">
-                        <label>Venue Name</label>
-                        <input class="form-control" type="text" v-model="createGigForm.venue" requried>
+                        <label>Venue</label>
+                        <label>{{ this.createGigForm.venue.name }}</label>
+                        <div id="map-ven-select" class="small-map"></div>
                     </div>
                     <div class="form-group">
                         <label>Lineup</label>
@@ -20,7 +21,7 @@
                         <button type="button" class="btn btn-danger" v-on:click="createGigForm.lineup.pop()">Remove</button>
                     </div>
                     <div class="form-group">
-                        <label>Lineup</label>
+                        <label>Date</label>
                         <input class="form-control" type="date" v-model="createGigForm.date" requried>
                     </div>
                     <button class="form-control btn btn-primary" type="submit">Submit</button>
