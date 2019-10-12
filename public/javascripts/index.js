@@ -5,15 +5,21 @@
     el: '#app',
     data: {
       map: null,
+      mapLocationSelector: null,
       createVenueForm: {
         name: '',
-        number: '',
-        postCode: ''
+        location: { long: "", lat: "" },
+        locationMarker: null
       },
       createGigForm: {
         lineup: ['', '', ''],
         date: '',
         venue: ''
+      }
+    },
+    computed: {
+      mapCenter () {
+        return this.mapLocationSelector ? this.mapLocationSelector.getCenter().toArray() : [0, 0]
       }
     },
     methods: {
@@ -23,14 +29,44 @@
       closeMenu: function () {
         this.$refs.menu.classList.remove("open")
       },
+      createVenueMap: function (){
+        this.mapLocationSelector = new mapboxgl.Map({
+          container: 'map-loc-select',
+          style: 'mapbox://styles/mapbox/streets-v11',
+          zoom: 8,
+          center: [-1.464854, 52.561928] // starting position [lng, lat]
+        })
+        this.mapLocationSelector.addControl(new mapboxgl.NavigationControl())
+        this.mapLocationSelector.addControl(new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true
+          },
+          trackUserLocation: true
+        }))
+        this.createVenueForm.locationMarker = new mapboxgl.Marker().setLngLat([0, 0]).addTo(this.mapLocationSelector);
+        this.mapLocationSelector.on("click", (e) => {
+          console.log(e)
+          this.createVenueForm.location.long = e.lngLat.lng
+          this.createVenueForm.location.lat = e.lngLat.lat
+          this.createVenueForm.locationMarker.setLngLat([e.lngLat.lng, e.lngLat.lat])
+        })
+
+        console.log("mapLocaSelect", this.mapLocationSelector)
+      },
       createVenue: function () {
         let fetchData = { 
           method: 'POST', 
-          body: { name: this.createVenueForm.name, 
-            address: this.createVenueForm.number + ", " + this.createVenueForm.postCode },
-          headers: new Headers()
+          body: JSON.stringify({ 
+            name: this.createVenueForm.name, 
+            location: {
+              long: this.createVenueForm.location.long,
+              lat: this.createVenueForm.location.lat
+            }
+          }),
+          headers: { 'Content-Type': 'application/json' }
         }
-        fetch ('/venues/create', FormData)
+        console.log(fetchData)
+        fetch ('/venues/create', fetchData)
         .then ((resp) => resp.json())
         .then ((data) => {
           if (data.success) {
@@ -59,6 +95,8 @@
         },
         trackUserLocation: true
       }))
+
+      this.createVenueMap()
 
       fetch ('api/fetch-all')
       .then ((resp) => resp.json())
