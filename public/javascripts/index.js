@@ -7,6 +7,7 @@
       map: null,
       mapLocationSelector: null,
       mapVenueSelector: null,
+      mapVenueView: null,
       venueFeatureLayer: null,
       createVenueForm: {
         name: '',
@@ -18,7 +19,13 @@
         date: '',
         venue: '',
         selectedMarker: null
-      }
+      },
+      venueViewData: {
+        name: "",
+        location: { long: "", lat: "" },
+        upcomingGigs: []
+      },
+      venueViewMarker: null
     },
     computed: {
       mapCenter () {
@@ -45,6 +52,14 @@
           zoom: 8,
           center: [-1.464854, 52.561928] // starting position [lng, lat]
         })
+
+        this.mapVenueView = new mapboxgl.Map({
+          container: 'map-selected-ven-view',
+          style: 'mapbox://styles/mapbox/streets-v11',
+          zoom: 12,
+          center: [-1.464854, 52.561928] // starting position [lng, lat]
+        })
+        this.venueViewMarker = new mapboxgl.Marker().setLngLat([0, 0]).addTo(this.mapVenueView);
 
         this.mapLocationSelector.addControl(new mapboxgl.NavigationControl())
         this.mapLocationSelector.addControl(new mapboxgl.GeolocateControl())
@@ -76,6 +91,22 @@
         .then ((data) => {
           if (data.success) {
             console.log(data)
+          }
+        })
+        .catch ((err) => {
+          console.log (err)
+        })
+      },
+      showVenue: function (venueId) {
+        fetch ('venues/get/' + venueId)
+        .then ((resp) => resp.json())
+        .then ((data) => {
+          if (data.success) {
+            this.venueViewMarker.setLngLat([data.venue.location.long, data.venue.location.lat])
+            this.mapVenueView.panTo([data.venue.location.long, data.venue.location.lat]);
+            this.venueViewData = data.venue
+          } else {
+            console.log("failed", data.error)
           }
         })
         .catch ((err) => {
@@ -140,6 +171,12 @@
             
             venueMarker.getElement().addEventListener('click', (e) => {
               this.selectMarker(venueMarker, venue)
+            })
+
+            marker.getElement().dataset.toggle="modal"
+            marker.getElement().dataset.target="#view-venue-modal" //setAttribute('data', 'toggle: modal', 'target: #myModal')
+            marker.getElement().addEventListener('click', (e) => {
+              this.showVenue(venue._id)
             })
           }
         }

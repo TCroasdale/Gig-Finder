@@ -9,6 +9,6 @@ router.get('/', function (req, res, next) {
 
 router.post('/create', venuesController.createVenue)
 
-router.get('/view', venuesController.viewVenue)
+router.get('/get/:id', venuesController.viewVenue)
 
 module.exports = router

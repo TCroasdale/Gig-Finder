@@ -12,14 +12,25 @@ module.exports.createVenue = function (req, res) {
 
     venue.save((err, result) => {
         if (err) {
-            res.json({ "success": false, "error": err })
+            res.json({ success: false, error: err })
         } else {
-            res.json({"success": true, "result": result})
+            res.json({ success: true, result: result })
         }
     })    
 
 }
 
 module.exports.viewVenue = function (req, res) {
-    res.send("NOT YET IMPLEMENTED")
+    id = req.params.id
+    console.log(id)
+
+    Venue.findById(id, (err, venue) => {
+        if (err) {
+            console.log(err)
+            res.json({ success: false, error: err })
+        } else {
+            console.log(venue)
+            res.json({ success: true, venue: venue })
+        }
+    })
 }
