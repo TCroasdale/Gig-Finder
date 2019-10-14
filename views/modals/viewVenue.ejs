@@ -8,7 +8,18 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <div id="map-selected-ven-view" class="small-map"></div>
-                
+                <h4 class="modal-title">Upcoming Gigs</h4>
+                <p v-if="noFutureGigsExist">There are no upcoming gigs at this venue. :(</p>
+                <table class="table-bordered table-hover w-100" v-else>
+                    <tr>
+                        <th>Date</th>
+                        <th>Headliner</th>
+                    </tr>
+                    <tr v-for="gig in venueViewData.upcomingGigs">
+                        <th>{{ gig.date }}</th>
+                        <th>{{ gig.lineup[0] }}</th>
+                    </tr>
+                </table>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">

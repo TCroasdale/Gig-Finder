@@ -1,4 +1,5 @@
 var Venue = require('../models/venue')
+var Gig = require('../models/gig')
 
 module.exports.createVenue = function (req, res) {
     var venue = new Venue({
@@ -22,15 +23,17 @@ module.exports.createVenue = function (req, res) {
 
 module.exports.viewVenue = function (req, res) {
     id = req.params.id
-    console.log(id)
-
     Venue.findById(id, (err, venue) => {
         if (err) {
-            console.log(err)
             res.json({ success: false, error: err })
         } else {
-            console.log(venue)
-            res.json({ success: true, venue: venue })
+            Gig.find({ venue: id }, (err, gigs) => {
+                if (err) {
+                    res.json({ success: false, error: err })
+                } else {
+                    res.json({ success: true, venue: venue, gigs: gigs })
+                }
+            })
         }
     })
 }

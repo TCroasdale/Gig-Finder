@@ -28,8 +28,11 @@
       venueViewMarker: null
     },
     computed: {
-      mapCenter () {
-        return this.mapLocationSelector ? this.mapLocationSelector.getCenter().toArray() : [0, 0]
+      noFutureGigsExist: function () {
+        if (this.venueViewData.upcomingGigs == undefined) {
+          return true
+        }
+        return this.venueViewData.upcomingGigs.length < 1
       }
     },
     methods: {
@@ -105,6 +108,8 @@
             this.venueViewMarker.setLngLat([data.venue.location.long, data.venue.location.lat])
             this.mapVenueView.panTo([data.venue.location.long, data.venue.location.lat]);
             this.venueViewData = data.venue
+            this.venueViewData.upcomingGigs = data.gigs
+            console.log(data)
           } else {
             console.log("failed", data.error)
           }
