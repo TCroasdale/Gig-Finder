@@ -4,7 +4,7 @@ var ObjectId = mongoose.ObjectId
 
 var User = new Schema({
   email: { type: String, required: true },
-  associtedAct: { type: ObjectId, ref: "Band" }
+  associtedAct: { type: ObjectId, ref: 'Band' }
 })
 
-module.exports = mongoose.model('Gig', Gig)
+module.exports = mongoose.model('User', User)

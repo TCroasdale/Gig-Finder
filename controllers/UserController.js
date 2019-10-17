@@ -1,9 +1,15 @@
 var User = require('../models/user')
 
 module.exports.createUser = function (req, res) {
-    res.send("NOT YET IMPLEMENTED")
+  res.send('NOT YET IMPLEMENTED')
 }
 
 module.exports.viewUser = function (req, res) {
-    res.send("NOT YET IMPLEMENTED")
+  User.findById(req.params.id, (err, user) => {
+    if (err) {
+      res.json({ success: false, error: err })
+    } else {
+      res.json({ success: true, user: user })
+    }
+  })
 }

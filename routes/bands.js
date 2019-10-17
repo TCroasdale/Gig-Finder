@@ -4,7 +4,7 @@ var bandController = require('../controllers/BandController')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.send("NOT YET IMPLEMENTED")
+  res.send('NOT YET IMPLEMENTED')
 })
 
 router.get('/create', bandController.createBand)
