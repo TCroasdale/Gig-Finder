@@ -25,7 +25,7 @@
         location: { long: '', lat: '' },
         upcomingGigs: []
       },
-      venueViewMarker: null
+      venueViewMarker: null,
     },
     computed: {
       noFutureGigsExist: function () {

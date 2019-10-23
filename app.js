@@ -28,6 +28,10 @@ app.use('/gigs', gigsRouter)
 app.use('/venues', venuesRouter)
 app.use('/bands', bandsRouter)
 
+app.get('/javascripts/moment.js', function (req, res) {
+  res.sendFile(path.join(__dirname, '/node_modules/moment/moment.js'))
+})
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404))
