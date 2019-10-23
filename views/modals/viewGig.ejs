@@ -1,0 +1,32 @@
+<div class="modal fade" id="view-gig-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">View Gig.</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Venue</label>
+                    <label>{{ this.gigViewData.venue.name }}</label>
+                    <div id="map-gig-view" class="small-map"></div>
+                </div>
+                <div class="form-group">
+                    <label>Lineup</label>
+                    <p v-for="(artist, index) in gigViewData.lineup">{{ artist }}</p>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <p>{{ this.gigViewData.date }}</p>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -8,6 +8,7 @@
       mapLocationSelector: null,
       mapVenueSelector: null,
       mapVenueView: null,
+      mapGigView: null,
       venueFeatureLayer: null,
       createVenueForm: {
         name: '',
@@ -25,7 +26,13 @@
         location: { long: '', lat: '' },
         upcomingGigs: []
       },
-      venueViewMarker: null
+      venueViewMarker: null,
+      gigViewData: {
+        lineup: ['', '', ''],
+        date: '',
+        venue: ''
+      },
+      gigViewMarker: null
     },
     computed: {
       noFutureGigsExist: function () {
@@ -64,6 +71,14 @@
         })
         this.venueViewMarker = new mapboxgl.Marker().setLngLat([0, 0]).addTo(this.mapVenueView)
 
+        this.mapGigView = new mapboxgl.Map({
+          container: 'map-gig-view',
+          style: 'mapbox://styles/mapbox/streets-v11',
+          zoom: 12,
+          center: [-1.464854, 52.561928] // starting position [lng, lat]
+        })
+        this.gigViewMarker = new mapboxgl.Marker().setLngLat([0, 0]).addTo(this.mapGigView)
+
         this.mapLocationSelector.addControl(new mapboxgl.NavigationControl())
         this.mapLocationSelector.addControl(new mapboxgl.GeolocateControl())
         this.mapVenueSelector.addControl(new mapboxgl.NavigationControl())
@@ -88,7 +103,6 @@
           }),
           headers: { 'Content-Type': 'application/json' }
         }
-        console.log(fetchData)
         fetch('/venues/create', fetchData)
           .then((resp) => resp.json())
           .then((data) => {
@@ -133,7 +147,6 @@
           }),
           headers: { 'Content-Type': 'application/json' }
         }
-        console.log(fetchData)
         fetch('/gigs/create', fetchData)
           .then((resp) => resp.json())
           .then((data) => {
@@ -141,6 +154,23 @@
               console.log(data)
             } else {
               console.log(data)
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      },
+      showGig: function (gigId) {
+        fetch('gigs/get/' + gigId)
+          .then((resp) => resp.json())
+          .then((data) => {
+            if (data.success) {
+              console.log(data)
+              this.gigViewMarker.setLngLat([data.gig.venue.location.long, data.gig.venue.location.lat])
+              this.mapGigView.panTo([data.gig.venue.location.long, data.gig.venue.location.lat])
+              this.gigViewData = data.gig
+            } else {
+              console.log('failed', data.error)
             }
           })
           .catch((err) => {
@@ -179,7 +209,7 @@
               })
 
               marker.getElement().dataset.toggle = 'modal'
-              marker.getElement().dataset.target = '#view-venue-modal' // setAttribute('data', 'toggle: modal', 'target: #myModal')
+              marker.getElement().dataset.target = '#view-venue-modal'
               marker.getElement().addEventListener('click', (e) => {
                 this.showVenue(venue._id)
               })

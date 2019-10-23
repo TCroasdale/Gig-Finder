@@ -9,6 +9,6 @@ router.get('/', function (req, res, next) {
 
 router.post('/create', gigController.createGig)
 
-router.get('/view', gigController.viewGig)
+router.get('/get/:id', gigController.viewGig)
 
 module.exports = router

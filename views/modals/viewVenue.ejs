@@ -15,7 +15,7 @@
                         <th>Date</th>
                         <th>Headliner</th>
                     </tr>
-                    <tr v-for="gig in venueViewData.upcomingGigs">
+                    <tr v-for="gig in venueViewData.upcomingGigs" v-on:click="showGig(gig._id)" data-toggle="modal" data-target="#view-gig-modal">
                         <th>{{ gig.date }}</th>
                         <th>{{ gig.lineup[0] }}</th>
                     </tr>
