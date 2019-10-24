@@ -20,9 +20,9 @@ router.get('/api/fetch-all', function (req, res) {
 })
 
 router.get('/api/fetch-all-in-area', function (req, res) {
-  let long = req.query.long
-  let lat = req.query.lat
-  let zoom = req.query.zoom
+  // let long = req.query.long
+  // let lat = req.query.lat
+  // let zoom = req.query.zoom
 
   Venue.find((err, data) => {
     if (err) {
