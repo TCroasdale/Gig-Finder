@@ -89,6 +89,7 @@
           this.createVenueForm.location.long = e.lngLat.lng
           this.createVenueForm.location.lat = e.lngLat.lat
           this.createVenueForm.locationMarker.setLngLat([e.lngLat.lng, e.lngLat.lat])
+          this.mapLocationSelector.panTo([e.lngLat.lng, e.lngLat.lat])
         })
       },
       createVenue: function () {
