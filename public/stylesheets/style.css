@@ -27,13 +27,19 @@ a {
   z-index: 5;
   top: 10px;
   left: 5%;
-  right: 15%;
   height: 48px;
+  width: 80%;
   pointer-events: auto;
   border-radius: 5px;
   background-color: white;
   box-shadow: 0 0 2px gray;
   padding: 0;
+}
+
+@media (min-width: 992px) {
+  #nav-bar {
+    width: 350px;
+  }
 }
 
 #nav-bar .nav-elem{
