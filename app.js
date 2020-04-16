@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users')
 var gigsRouter = require('./routes/gigs')
 var venuesRouter = require('./routes/venues')
 var bandsRouter = require('./routes/bands')
+var searchRouter = require('./routes/search')
 
 var app = express()
 
@@ -27,6 +28,7 @@ app.use('/users', usersRouter)
 app.use('/gigs', gigsRouter)
 app.use('/venues', venuesRouter)
 app.use('/bands', bandsRouter)
+app.use('/search', searchRouter)
 
 app.get('/javascripts/moment.js', function (req, res) {
   res.sendFile(path.join(__dirname, '/node_modules/moment/moment.js'))

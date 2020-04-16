@@ -24,8 +24,10 @@
             <div class="menu-bar-deco"></div>
             <div class="menu-bar-deco"></div>
         </div>
-        <input type="text" class="col-10 nav-elem" id="search-bar" placeholder="Search">
-        <select class="badge badge-pill badge-dark" id="search-options">
+        <form class="col-10 p-0 nav-elem" v-on:submit.prevent="doSearch">
+            <input type="text" class="px-1" id="search-bar" placeholder="Search" v-model="searchQuery">
+        </form>
+        <select class="badge badge-pill badge-dark" id="search-options" v-model="searchOption">
             <option>All</option>
             <option>Venue</option>
             <option>Artist</option>

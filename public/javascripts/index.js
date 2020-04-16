@@ -5,6 +5,7 @@
     el: '#app',
     data: {
       map: null,
+      markers: [],
       mapLocationSelector: null,
       mapVenueSelector: null,
       mapVenueView: null,
@@ -32,7 +33,9 @@
         date: '',
         venue: ''
       },
-      gigViewMarker: null
+      gigViewMarker: null,
+      searchOption: 'All',
+      searchQuery: ''
     },
     computed: {
       noFutureGigsExist: function () {
@@ -177,6 +180,14 @@
           .catch((err) => {
             console.log(err)
           })
+      },
+      doSearch: function () {
+        console.log(this.searchQuery, this.searchOption)
+        fetch(`/search?type=${this.searchOption}&query=${this.searchQuery}`)
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data)
+          })
       }
     },
     mounted () {
@@ -196,9 +207,11 @@
 
       this.createOtherMaps()
 
-      fetch('api/fetch-all')
+      let center = this.map.getCenter()
+      fetch(`search/getarea?lat=${center.lat}&lng=${center.lng}&r=500`)
         .then((resp) => resp.json())
         .then((data) => {
+          console.log(data)
           if (data.success) {
             for (var v = 0; v < data.results.venues.length; v++) {
               let venue = data.results.venues[v]

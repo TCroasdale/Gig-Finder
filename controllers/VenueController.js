@@ -5,8 +5,11 @@ module.exports.createVenue = function (req, res) {
   var venue = new Venue({
     name: req.body.name,
     location: {
-      long: req.body.location.long,
-      lat: req.body.location.lat
+      type: 'Point',
+      coordinates: [
+        req.body.location.lng,
+        req.body.location.lat
+      ]
     }
   })
 

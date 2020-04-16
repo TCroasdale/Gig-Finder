@@ -57,6 +57,11 @@ a {
   border-bottom-right-radius: 0;
 }
 
+#search-bar {
+  width: 100%;
+  height: 100%;
+}
+
 #menu-btn {
   max-width: 64px;
 }
