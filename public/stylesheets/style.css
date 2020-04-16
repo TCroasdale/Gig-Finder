@@ -28,7 +28,7 @@ a {
   top: 10px;
   left: 5%;
   height: 48px;
-  width: 80%;
+  width: 330px;
   pointer-events: auto;
   border-radius: 5px;
   background-color: white;
@@ -38,14 +38,34 @@ a {
 
 @media (min-width: 992px) {
   #nav-bar {
-    width: 350px;
+    max-width: 350px;
   }
 }
 
-#nav-bar .nav-elem{
+#search-options {
+  position: absolute;
+  display: block;
+  right: 4px;
+  border-bottom-left-radius: 10rem;
+  border-bottom-right-radius: 10rem;
+  /* transition: border-bottom-left-radius 0.1s linear; */
+  transition: border-radius 0.1s linear;
+}
+
+#search-options:focus:active{
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#menu-btn {
+  max-width: 64px;
+}
+
+.nav-elem{
   padding: 6px 12px;
   height: 100%;
 }
+
 
 #nav-bar .nav-elem:first-child{
   height: 100%;
@@ -74,7 +94,8 @@ a {
   z-index: 10; 
   top: 0; 
   left: -75%;
-  width: 75%; 
+  width: 75%;
+  max-width: 350px; 
   overflow-x: hidden; 
   padding-top: 60px;
   transition: 0.5s; 
@@ -92,6 +113,12 @@ a {
   height: 48px;
   transition: 0.1s linear;
 }
+
+#menu-footer {
+  position: absolute;
+  bottom: 0;
+}
+
 #menu-close .menu-bar-deco {
   margin: 0 auto;
 }

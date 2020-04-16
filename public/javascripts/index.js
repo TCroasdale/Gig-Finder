@@ -16,7 +16,7 @@
         locationMarker: null
       },
       createGigForm: {
-        lineup: ['', '', ''],
+        lineup: [''],
         date: '',
         venue: '',
         selectedMarker: null

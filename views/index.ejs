@@ -12,18 +12,25 @@
             <li class="list-group-item bg-dark">FAQ</li>
             <li class="list-group-item bg-dark">Contact us!</li>
         </ul>
-        <div id="menu-footer" class="">
-            <p>Footer</p>
+        <div id="menu-footer" class="p-2 bg-dark">
+            <p>Thanks for using Gig Finder</p>
+            <p>&copy; Tom Croasdale 2020</p>
         </div>
     </div>
     <div id="map" class="w-100 y-stretch"></div>
-    <div id="nav-bar" class="navbar row mw-50">
+    <div id="nav-bar" class="navbar row">
         <div id="menu-btn" class="col-2 nav-elem" v-on:click="openMenu($refs.menu)">
             <div class="menu-bar-deco"></div>
             <div class="menu-bar-deco"></div>
             <div class="menu-bar-deco"></div>
         </div>
-        <input type="text" class="col-10 nav-elem" id="search-bar" placeholder="Search by Artist, Venue or Location">
+        <input type="text" class="col-10 nav-elem" id="search-bar" placeholder="Search">
+        <select class="badge badge-pill badge-dark" id="search-options">
+            <option>All</option>
+            <option>Venue</option>
+            <option>Artist</option>
+            <option>City</option>
+        </select>
     </div>
     <%- include modals/createVenue.ejs %>
     <%- include modals/viewVenue.ejs %>
