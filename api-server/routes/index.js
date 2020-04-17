@@ -9,12 +9,12 @@ router.get('/', function (req, res, next) {
 })
 
 /* QnD function for fetching data. */
-router.get('/api/fetch-all', function (req, res) {
+router.get('/fetch-all', function (req, res) {
   Venue.find((err, data) => {
     if (err) {
-      res.send({ success: false, error: err })
+      res.json({ success: false, error: err })
     } else {
-      res.send({ success: true, results: { venues: data } })
+      res.json({ success: true, results: { venues: data } })
     }
   })
 })
@@ -26,9 +26,9 @@ router.get('/api/fetch-all-in-area', function (req, res) {
 
   Venue.find((err, data) => {
     if (err) {
-      res.send({ success: false, error: err })
+      res.json({ success: false, error: err })
     } else {
-      res.send({ success: true, results: { venues: data } })
+      res.json({ success: true, results: { venues: data } })
     }
   })
 })

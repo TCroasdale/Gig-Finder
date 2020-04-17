@@ -1,14 +1,15 @@
 var express = require('express')
 var router = express.Router()
-var gigController = require('../controllers/GigController')
+var venuesController = require('../controllers/VenueController')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.send('NOT YET IMPLEMENTED')
+
 })
 
-router.post('/create', gigController.createGig)
+router.post('/create', venuesController.createVenue)
 
-router.get('/get/:id', gigController.viewGig)
+router.get('/get/:id', venuesController.viewVenue)
 
 module.exports = router
