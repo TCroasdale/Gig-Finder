@@ -38,7 +38,7 @@ module.exports.locationSearch = function (req, res) {
         $geometry: {
           type: 'Point',
           coordinates: [lng, lat]
-        },venues }
+        },
         $minDistance: 0,
         $maxDistance: maxDist
       }
