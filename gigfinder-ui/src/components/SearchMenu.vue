@@ -69,6 +69,7 @@ export default {
   border-bottom-left-radius: 10rem;
   border-bottom-right-radius: 10rem;
   transition: border-radius 0.1s linear;
+  z-index: 15;
 }
 
 #search-options:focus:active{
