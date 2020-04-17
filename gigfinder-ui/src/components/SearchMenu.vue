@@ -8,7 +8,9 @@
       <form class="col-10 mx-0 p-0 input-group nav-elem" v-on:submit.prevent="doSearch">
           <input type="text" class="px-1 form-control" id="search-bar" placeholder="Search" v-model="searchQuery">
           <div class="input-group-append">
-              <button type="submit" class="btn btn-dark">Go</button>
+              <button type="submit" class="btn btn-dark">
+                <Icon icon="search" text="Go"></Icon>
+              </button>
           </div>
       </form>
       <select class="badge badge-pill badge-dark" id="search-options" v-model="searchOption">
@@ -21,9 +23,14 @@
 </template>
 
 <script>
+import Icon from './Icon.vue'
+
 export default {
   props: {
     openMenu: Function
+  },
+  components: {
+    Icon
   },
   data () {
     return {
