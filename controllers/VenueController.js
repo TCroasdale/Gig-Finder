@@ -13,6 +13,7 @@ module.exports.createVenue = function (req, res) {
     }
   })
 
+  console.log(req.body)
   venue.save((err, result) => {
     if (err) {
       res.json({ success: false, error: err })

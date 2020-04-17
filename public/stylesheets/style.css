@@ -45,7 +45,7 @@ a {
 #search-options {
   position: absolute;
   display: block;
-  right: 4px;
+  right: 15%;
   border-bottom-left-radius: 10rem;
   border-bottom-right-radius: 10rem;
   /* transition: border-bottom-left-radius 0.1s linear; */
@@ -58,7 +58,7 @@ a {
 }
 
 #search-bar {
-  width: 100%;
+  /* width: 100%; */
   height: 100%;
 }
 

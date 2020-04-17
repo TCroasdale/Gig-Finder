@@ -13,7 +13,7 @@
       venueFeatureLayer: null,
       createVenueForm: {
         name: '',
-        location: { long: '', lat: '' },
+        location: { lng: '', lat: '' },
         locationMarker: null
       },
       createGigForm: {
@@ -24,7 +24,7 @@
       },
       venueViewData: {
         name: '',
-        location: { long: '', lat: '' },
+        location: { lng: '', lat: '' },
         upcomingGigs: []
       },
       venueViewMarker: null,
@@ -89,19 +89,20 @@
 
         this.createVenueForm.locationMarker = new mapboxgl.Marker().setLngLat([0, 0]).addTo(this.mapLocationSelector)
         this.mapLocationSelector.on('click', (e) => {
-          this.createVenueForm.location.long = e.lngLat.lng
+          this.createVenueForm.location.lng = e.lngLat.lng
           this.createVenueForm.location.lat = e.lngLat.lat
           this.createVenueForm.locationMarker.setLngLat([e.lngLat.lng, e.lngLat.lat])
           this.mapLocationSelector.panTo([e.lngLat.lng, e.lngLat.lat])
         })
       },
       createVenue: function () {
+        console.log(this.createVenueForm.location.lng, this.createVenueForm.location.lat)
         let fetchData = {
           method: 'POST',
           body: JSON.stringify({
             name: this.createVenueForm.name,
             location: {
-              long: this.createVenueForm.location.long,
+              lng: this.createVenueForm.location.lng,
               lat: this.createVenueForm.location.lat
             }
           }),
@@ -110,6 +111,7 @@
         fetch('/venues/create', fetchData)
           .then((resp) => resp.json())
           .then((data) => {
+            console.log(data)
             if (data.success) {
               console.log(data)
             }
@@ -123,8 +125,8 @@
           .then((resp) => resp.json())
           .then((data) => {
             if (data.success) {
-              this.venueViewMarker.setLngLat([data.venue.location.long, data.venue.location.lat])
-              this.mapVenueView.panTo([data.venue.location.long, data.venue.location.lat])
+              this.venueViewMarker.setLngLat([data.venue.location.lng, data.venue.location.lat])
+              this.mapVenueView.panTo([data.venue.location.lng, data.venue.location.lat])
               this.venueViewData = data.venue
               this.venueViewData.upcomingGigs = data.gigs
               console.log(data)
@@ -170,8 +172,8 @@
           .then((data) => {
             if (data.success) {
               console.log(data)
-              this.gigViewMarker.setLngLat([data.gig.venue.location.long, data.gig.venue.location.lat])
-              this.mapGigView.panTo([data.gig.venue.location.long, data.gig.venue.location.lat])
+              this.gigViewMarker.setLngLat([data.gig.venue.location.lng, data.gig.venue.location.lat])
+              this.mapGigView.panTo([data.gig.venue.location.lng, data.gig.venue.location.lat])
               this.gigViewData = data.gig
             } else {
               console.log('failed', data.error)
@@ -187,7 +189,70 @@
           .then((resp) => resp.json())
           .then((data) => {
             console.log(data)
+            if (data.success) {
+              if (data.results.venues) {
+                this.addMarkers(data.results.venues)
+              }
+            }
           })
+      },
+      doLocationSearch: function () {
+        let center = this.map.getCenter()
+        fetch(`search/getarea?lat=${center.lat}&lng=${center.lng}&r=500`)
+          .then((resp) => resp.json())
+          .then((data) => {
+            if (data.success) {
+              this.addMarkers(data.results.venues)
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      },
+      zoomToMarkers: function (fallback) {
+        if (this.markers !== undefined) {
+          if (this.markers.length === 0) {
+            if (fallback) fallback()
+          } else if (this.markers.length === 1) {
+            this.map.panTo(this.markers[0].getLngLat())
+          } else {
+            var bounds = new mapboxgl.LngLatBounds()
+
+            for (let i = 0; i < this.markers.length; i++) {
+              bounds.extend(this.markers[i].getLngLat())
+            }
+            this.map.fitBounds(bounds)
+          }
+        } else if (fallback) {
+          fallback()
+        }
+      },
+      addMarkers: function (markerList) {
+        if (this.markers !== undefined) {
+          for (let i = 0; i < this.markers.length; i++) {
+            this.markers[i].remove()
+          }
+          this.markers = []
+        }
+        for (var v = 0; v < markerList.length; v++) {
+          let venue = markerList[v]
+          let loc = venue.location.coordinates
+          let marker = new mapboxgl.Marker().setLngLat(loc).addTo(this.map)
+          let venueMarker = new mapboxgl.Marker().setLngLat(loc).addTo(this.mapVenueSelector)
+
+          this.markers.push(marker)
+
+          venueMarker.getElement().addEventListener('click', (e) => {
+            this.selectMarker(venueMarker, venue)
+          })
+
+          marker.getElement().dataset.toggle = 'modal'
+          marker.getElement().dataset.target = '#view-venue-modal'
+          marker.getElement().addEventListener('click', (e) => {
+            this.showVenue(venue._id)
+          })
+        }
+        this.zoomToMarkers()
       }
     },
     mounted () {
@@ -206,33 +271,7 @@
       }))
 
       this.createOtherMaps()
-
-      let center = this.map.getCenter()
-      fetch(`search/getarea?lat=${center.lat}&lng=${center.lng}&r=500`)
-        .then((resp) => resp.json())
-        .then((data) => {
-          console.log(data)
-          if (data.success) {
-            for (var v = 0; v < data.results.venues.length; v++) {
-              let venue = data.results.venues[v]
-              let marker = new mapboxgl.Marker().setLngLat([venue.location.long, venue.location.lat]).addTo(this.map)
-              let venueMarker = new mapboxgl.Marker().setLngLat([venue.location.long, venue.location.lat]).addTo(this.mapVenueSelector)
-
-              venueMarker.getElement().addEventListener('click', (e) => {
-                this.selectMarker(venueMarker, venue)
-              })
-
-              marker.getElement().dataset.toggle = 'modal'
-              marker.getElement().dataset.target = '#view-venue-modal'
-              marker.getElement().addEventListener('click', (e) => {
-                this.showVenue(venue._id)
-              })
-            }
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      this.doLocationSearch()
     }
 
   })

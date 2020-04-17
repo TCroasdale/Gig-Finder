@@ -5,10 +5,8 @@ module.exports.search = function (req, res) {
   let searchType = req.query.type
   let query = req.query.query
 
-  console.log(searchType, query)
-
   if (searchType === 'Venue') {
-    Venue.find({ name: query }, (err, venues) => {
+    Venue.find({ name: { $regex: '.*' + query + '.*' } }, (err, venues) => {
       if (err) {
         res.json({ 'success': false, 'error': err })
       } else {
@@ -16,13 +14,15 @@ module.exports.search = function (req, res) {
       }
     })
   } else if (searchType === 'Artist') {
-    Band.find({ name: query }, (err, artists) => {
+    Band.find({ name: { $regex: '.*' + query + '.*' } }, (err, artists) => {
       if (err) {
         res.json({ 'success': false, 'error': err })
       } else {
         res.json({ 'success': true, 'results': { 'artists': artists } })
       }
     })
+  } else {
+    res.json({ 'success': false, 'error': 'Not Yet Implemented' })
   }
 }
 
@@ -31,7 +31,6 @@ module.exports.locationSearch = function (req, res) {
   let lng = req.query.lng
   let maxDist = req.query.r
 
-  console.log(lat, lng, maxDist)
   Venue.find({
     location: {
       $near: {
