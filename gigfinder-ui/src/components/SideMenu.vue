@@ -61,6 +61,16 @@ export default {
   z-index: 15;
 }
 
+.menu-bar-deco {
+  margin: 6px auto;
+  padding: 0 0;
+  display: block;
+  height: 4px;
+  width: 75%;
+  max-width: 48px;
+  background-color: darkgray;
+}
+
 #menu-footer {
   position: absolute;
   bottom: 0;
