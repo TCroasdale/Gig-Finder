@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <SideMenu></SideMenu>
+    <SideMenu v-bind:closeMenu="closeMenu" v-bind:isOpen="menuOpen"></SideMenu>
     <Map></Map>
-    <SearchMenu></SearchMenu>
+    <SearchMenu v-bind:openMenu="openMenu"></SearchMenu>
   </div>
 </template>
 
@@ -18,12 +18,17 @@ export default {
     SideMenu,
     SearchMenu
   },
+  data () {
+    return {
+      menuOpen: false
+    }
+  },
   methods: {
     openMenu: function () {
-      this.$refs.menu.classList.add('open')
+      this.menuOpen = true
     },
     closeMenu: function () {
-      this.$refs.menu.classList.remove('open')
+      this.menuOpen = false
     }
   }
 }

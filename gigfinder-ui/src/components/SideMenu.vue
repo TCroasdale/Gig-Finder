@@ -1,5 +1,5 @@
 <template>
-  <div id="side-menu" class="side-menu y-stretch bg-dark text-white" ref="menu">
+  <div id="side-menu" class="side-menu y-stretch bg-dark text-white" v-bind:class="{ 'open': isOpen }" ref="menu">
       <div id="menu-close" class="" v-on:click="closeMenu($refs.menu)">
           <div class="menu-bar-deco"></div>
           <div class="menu-bar-deco"></div>
@@ -20,7 +20,15 @@
 
 <script>
 export default {
-  
+  props: {
+    closeMenu: Function,
+    isOpen: Boolean
+  },
+  data () {
+    return {
+      
+    }
+  }
 }
 </script>
 
@@ -50,6 +58,7 @@ export default {
   width: 48px;
   height: 48px;
   transition: 0.1s linear;
+  z-index: 15;
 }
 
 #menu-footer {

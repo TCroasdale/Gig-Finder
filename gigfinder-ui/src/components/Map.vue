@@ -1,5 +1,5 @@
 <template>
-  <div id="main-map"></div>
+  <div id="main-map" class="w-100 y-stretch"></div>
 </template>
 
 <script>

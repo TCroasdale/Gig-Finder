@@ -22,6 +22,9 @@
 
 <script>
 export default {
+  props: {
+    openMenu: Function
+  },
   data () {
     return {
       searchOption: 'All',
