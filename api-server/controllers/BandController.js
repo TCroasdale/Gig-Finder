@@ -1,7 +1,7 @@
 var Band = require('../models/Band')
 
 module.exports.createBand = function (req, res) {
-  res.send('NOT YET IMPLEMENTED')
+  res.json({ success: false, error: 'NOT YET IMPLEMENTED' })
 }
 
 module.exports.viewBand = function (req, res) {

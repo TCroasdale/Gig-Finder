@@ -5,6 +5,7 @@ var venuesController = require('../controllers/VenueController')
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.send('NOT YET IMPLEMENTED')
+
 })
 
 router.post('/create', venuesController.createVenue)
