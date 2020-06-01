@@ -1,14 +1,11 @@
-var express = require('express')
-var router = express.Router()
 var gigController = require('../controllers/GigController')
+module.exports = (router, routeURL) => {
+  /* GET home page. */
+  router.get(routeURL + '/', function (req, res, next) {
+    res.json({ success: false, error: 'NOT YET IMPLEMENTED' })
+  })
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  res.json({ success: false, error: 'NOT YET IMPLEMENTED' })
-})
+  router.post(routeURL + '/create', gigController.createGig)
 
-router.post('/create', gigController.createGig)
-
-router.get('/get/:id', gigController.viewGig)
-
-module.exports = router
+  router.get(routeURL + '/get/:id', gigController.viewGig)
+}

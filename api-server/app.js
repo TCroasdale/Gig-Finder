@@ -4,12 +4,15 @@ var path = require('path')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 
+var subdomain = require('express-subdomain')
+
 // var indexRouter = require('./routes/index')
-var usersRouter = require('./routes/users')
-var gigsRouter = require('./routes/gigs')
-var venuesRouter = require('./routes/venues')
-var bandsRouter = require('./routes/bands')
-var searchRouter = require('./routes/search')
+var mainRouter = express.Router()
+require('./routes/users')(mainRouter, '/users')
+require('./routes/gigs')(mainRouter, '/gigs')
+require('./routes/venues')(mainRouter, '/venues')
+require('./routes/bands')(mainRouter, '/bands')
+require('./routes/search')(mainRouter, '/search')
 
 var app = express()
 
@@ -20,11 +23,17 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // app.use('/', indexRouter)
-app.use('/users', usersRouter)
-app.use('/gigs', gigsRouter)
-app.use('/venues', venuesRouter)
-app.use('/bands', bandsRouter)
-app.use('/search', searchRouter)
+// mainRouter.use('/users', usersRouter)
+// mainRouter.use('/gigs', gigsRouter)
+// mainRouter.use('/venues', venuesRouter)
+// mainRouter.use('/bands', bandsRouter)
+// mainRouter.use('/search', searchRouter)
+
+mainRouter.get('/', (req, res) => {
+  res.json({ message: 'Welcome to the GigFinder API' })
+})
+
+app.use('/', mainRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -39,7 +48,9 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500)
-  res.render('error')
+  res.json({ success: false, error: err.status })
 })
+
+app.use(subdomain('api', mainRouter))
 
 module.exports = app

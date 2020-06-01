@@ -1,11 +1,8 @@
-var express = require('express')
-var router = express.Router()
-
 let searchController = require('../controllers/SearchController')
 
-/* QnD function for fetching data. */
-router.get('/', searchController.search)
+module.exports = (router, routeURL) => {
+  /* QnD function for fetching data. */
+  router.get(routeURL + '/', searchController.search)
 
-router.get('/getarea', searchController.locationSearch)
-
-module.exports = router
+  router.get(routeURL + '/getarea', searchController.locationSearch)
+}
