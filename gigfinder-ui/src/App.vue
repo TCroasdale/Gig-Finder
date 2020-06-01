@@ -3,6 +3,7 @@
     <SideMenu v-bind:closeMenu="closeMenu" v-bind:isOpen="menuOpen"></SideMenu>
     <Map></Map>
     <SearchMenu v-bind:openMenu="openMenu"></SearchMenu>
+    <DateRange></DateRange>
   </div>
 </template>
 
@@ -10,13 +11,15 @@
 import Map from './components/Map.vue'
 import SideMenu from './components/SideMenu.vue'
 import SearchMenu from './components/SearchMenu.vue'
+import DateRange from './components/DateRange.vue'
 
 export default {
   name: 'App',
   components: {
     Map,
     SideMenu,
-    SearchMenu
+    SearchMenu,
+    DateRange
   },
   data () {
     return {

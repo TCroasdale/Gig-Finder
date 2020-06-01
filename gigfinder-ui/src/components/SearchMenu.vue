@@ -37,6 +37,11 @@ export default {
       searchOption: 'All',
       searchQuery: ''
     }
+  },
+  methods: {
+    doSearch: function () {
+      console.log("searching.")
+    }
   }
 }
 </script>

@@ -48,6 +48,7 @@ export default {
 }
 .side-menu.open{
   left: 0;
+  box-shadow: 5px 0px 10px black;
 }
 
 #menu-close {
