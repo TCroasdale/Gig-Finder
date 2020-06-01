@@ -5,7 +5,7 @@
         <ul class="p-0">
           <li><a href="#">Today</a></li>
           <li><a href="#">This Week</a></li>
-          <li><a href="#">Next Week</a></li>
+          <!-- <li><a href="#">Next Week</a></li> -->
           <li><a href="#" v-on:click="isExpanded = false" class="text-white text-decoration-none text-lg"><Icon icon="times" text="Pick Date"></Icon></a></li>
         </ul>
       </div>

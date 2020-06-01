@@ -1,9 +1,11 @@
 <template>
   <div id="app">
-    <SideMenu v-bind:closeMenu="closeMenu" v-bind:isOpen="menuOpen"></SideMenu>
+    <CreateVenueModal v-bind:isOpen="venueModalOpen" @close="venueModalOpen = false"></CreateVenueModal>
+
+    <SideMenu v-bind:closeMenu="closeMenu" v-bind:isOpen="menuOpen" @openVenueModal="venueModalOpen = true"></SideMenu>
     <Map></Map>
     <SearchMenu v-bind:openMenu="openMenu"></SearchMenu>
-    <DateRange></DateRange>
+    <!-- <DateRange></DateRange> -->
   </div>
 </template>
 
@@ -11,7 +13,8 @@
 import Map from './components/Map.vue'
 import SideMenu from './components/SideMenu.vue'
 import SearchMenu from './components/SearchMenu.vue'
-import DateRange from './components/DateRange.vue'
+import CreateVenueModal from './components/modals/CreateVenueModal.vue'
+// import DateRange from './components/DateRange.vue'
 
 export default {
   name: 'App',
@@ -19,11 +22,12 @@ export default {
     Map,
     SideMenu,
     SearchMenu,
-    DateRange
+    CreateVenueModal
   },
   data () {
     return {
-      menuOpen: false
+      menuOpen: false,
+      venueModalOpen: false
     }
   },
   methods: {
