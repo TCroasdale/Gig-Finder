@@ -41,6 +41,7 @@ export default {
   methods: {
     doSearch: function () {
       console.log("searching.")
+      this.$emit("search", { query: this.searchQuery, option: this.searchOption })
     }
   }
 }

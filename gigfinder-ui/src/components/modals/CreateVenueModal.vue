@@ -57,7 +57,6 @@ export default {
       })
     },
     createVenue: function () {
-      console.log(this.createVenueForm.location.lng, this.createVenueForm.location.lat)
       let fetchData = {
         method: 'POST',
         body: JSON.stringify({
@@ -69,7 +68,7 @@ export default {
         }),
         headers: { 'Content-Type': 'application/json' }
       }
-      fetch('api.localhost:3000/venues/create', fetchData)
+      fetch('http://api.localhost:3000/venues/create', fetchData)
         .then((resp) => resp.json())
         .then((data) => {
           console.log(data)

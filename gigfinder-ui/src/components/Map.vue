@@ -90,6 +90,7 @@ export default {
         trackUserLocation: true
       }))
     this.map.on('moveend', () => {
+      console.log("move")
       // this.doLocationSearch()
     })
     this.doLocationSearch()

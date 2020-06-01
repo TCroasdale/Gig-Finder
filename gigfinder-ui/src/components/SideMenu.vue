@@ -6,8 +6,8 @@
       </div>
       <ul class="list-group-flush bg-dark px-0">
           <li class="list-group-item bg-dark">About</li>
-          <a href="#" data-toggle="modal" data-target="#create-gig-modal"><li class="list-group-item bg-dark">Hosting a Gig?</li></a>
-          <a href="#" @click="openVenueModal"><li class="list-group-item bg-dark">Add a Venue</li></a>
+          <a href="#" @click="openGigCreate" data-toggle="modal" data-target="#create-gig-modal"><li class="list-group-item bg-dark">Hosting a Gig?</li></a>
+          <a href="#" @click="openVenueCreate"><li class="list-group-item bg-dark">Add a Venue</li></a>
           <li class="list-group-item bg-dark">FAQ</li>
           <li class="list-group-item bg-dark">Contact us!</li>
       </ul>
@@ -30,8 +30,11 @@ export default {
     }
   },
   methods: {
-    openVenueModal: function () {
-      this.$emit('openVenueModal')
+    openVenueCreate: function () {
+      this.$emit('openVenueCreate')
+    },
+    openGigCreate: function () {
+      this.$emit('openGigCreate')
     }
   }
 }
