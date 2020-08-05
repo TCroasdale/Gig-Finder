@@ -112,6 +112,8 @@ export default {
   height: 100%;
   border-right: 1px solid gray;
   transition: 0.1s linear;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 #nav-bar .nav-elem:first-child:hover{
