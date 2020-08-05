@@ -4,11 +4,39 @@ var path = require('path')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 
+var passport = require('passport')
+var LocalStrategy = require('passport-local')
+var bcrypt = require('bcrypt')
+
+const User = require('./models/User')
+
+passport.use(new LocalStrategy(
+  function (email, password, done) {
+    User.findOne({ email: email }, function (err, user) {
+      if (err) { return done(err) }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect email.' })
+      }
+      bcrypt.compare(password, user.passwordHash, (err, result) => {
+        if (err) {
+          return done(err)
+        } else {
+          if (result === true) {
+            return done(null, user._id)
+          } else {
+            return done(null, false, { message: 'Incorrect password.' })
+          }
+        }
+      })
+    })
+  }
+))
+
 var subdomain = require('express-subdomain')
 
 // var indexRouter = require('./routes/index')
 var mainRouter = express.Router()
-require('./routes/users')(mainRouter, '/users')
+require('./routes/users')(mainRouter, '/users', passport)
 require('./routes/gigs')(mainRouter, '/gigs')
 require('./routes/venues')(mainRouter, '/venues')
 require('./routes/bands')(mainRouter, '/bands')

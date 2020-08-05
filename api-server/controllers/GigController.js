@@ -2,7 +2,6 @@ var Gig = require('../models/Gig')
 var Venue = require('../models/Venue')
 
 module.exports.createGig = function (req, res) {
-  console.log(req.body)
   var gig = new Gig({
     date: req.body.date,
     venue: req.body.venue,
